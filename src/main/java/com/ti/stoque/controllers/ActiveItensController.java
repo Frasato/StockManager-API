@@ -1,7 +1,7 @@
 package com.ti.stoque.controllers;
 
+import com.ti.stoque.dtos.TakeOutItemDTO;
 import com.ti.stoque.models.ActiveItensModel;
-import com.ti.stoque.models.FinishItensModel;
 import com.ti.stoque.services.ActiveItensService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +28,9 @@ public class ActiveItensController {
 
     @PostMapping(value = "/create")
     public ActiveItensModel createItem(@RequestBody ActiveItensModel activeItensModel){
+        if(activeItensModel.getBarCode() == null || activeItensModel.getBarCode().isEmpty()){
+            throw new IllegalArgumentException("BarCode cannot be null or empty!");
+        }
         return activeItensService.createItensOnDB(activeItensModel);
     }
 
@@ -36,9 +39,15 @@ public class ActiveItensController {
         return activeItensService.updateItensOnDB(activeItensModel, id);
     }
 
-    @PutMapping(value = "/takeout/{id}")
-    public ActiveItensModel takeOutItem(@PathVariable(name = "id") UUID id, @RequestBody ActiveItensModel activeItensModel, @RequestBody int removedAmount, @RequestBody String city, @RequestBody String sector){
-        return activeItensService.updateItensOnDBOutTB(activeItensModel, id, removedAmount, city, sector);
+    @PutMapping(value = "/takeout")
+    public ActiveItensModel takeOutItem(@RequestBody TakeOutItemDTO takeOutItemDTO){
+
+        UUID id = takeOutItemDTO.getId();
+        int removedAmount = takeOutItemDTO.getRemovedAmount();
+        String city = takeOutItemDTO.getCity();
+        String sector = takeOutItemDTO.getSector();
+
+        return activeItensService.updateItensOnDBOutTB(id, removedAmount, city, sector);
     }
 
 }
