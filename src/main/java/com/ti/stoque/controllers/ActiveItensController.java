@@ -31,7 +31,7 @@ public class ActiveItensController {
         return activeItensService.createItensOnDB(activeItensModel);
     }
 
-    @PutMapping(value = "/update-item/{id}")
+    @PutMapping(value = "/update/{id}")
     public ActiveItensModel updateItem(@PathVariable(name = "id") UUID id, @RequestBody ActiveItensModel activeItensModel){
         return activeItensService.updateItensOnDB(activeItensModel, id);
     }
