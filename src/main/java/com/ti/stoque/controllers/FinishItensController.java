@@ -18,6 +18,11 @@ public class FinishItensController {
 
     @GetMapping(value = "/all")
     public List<FinishItensModel> findAll(){
-        return finishItensService.findAl();
+        return finishItensService.findAll();
+    }
+
+    @GetMapping(value = "/search")
+    public List<FinishItensModel> findByQuery(String searchItem){
+        return finishItensService.findByQuery(searchItem);
     }
 }
