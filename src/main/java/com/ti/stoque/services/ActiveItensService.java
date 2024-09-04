@@ -23,16 +23,17 @@ public class ActiveItensService {
         return activeitensRepository.findAll();
     }
 
-    public List<ActiveItensModel> findBySearchInput(long barCode, String item, String mark){
-        return activeitensRepository.findByBarCodeItemNameMarkName(barCode, item, mark);
+    public List<ActiveItensModel> findBySearchInput(String seacrhItens){
+        return activeitensRepository.findByBarCodeItemNameMarkName(seacrhItens);
     }
 
     public ActiveItensModel createItensOnDB(ActiveItensModel activeItensModel){
         return activeitensRepository.save(activeItensModel);
     }
 
-    public ActiveItensModel updateItensOnDBOutTB(FinishItensModel finishItensModel, ActiveItensModel activeItensModel, UUID id, int removedAmount, String sector, String city){
+    public ActiveItensModel updateItensOnDBOutTB(ActiveItensModel activeItensModel, UUID id, int removedAmount, String sector, String city){
         var item = activeitensRepository.findById(id).orElseThrow(()-> new RuntimeException("Item not found on ID: " + id));
+        FinishItensModel finishItensModel = new FinishItensModel();
 
         if(item.getAmount() < removedAmount){
             throw new RuntimeException("Not enough items in stock to remove: Requested " + removedAmount);
@@ -65,6 +66,7 @@ public class ActiveItensService {
         item.setItemName(activeItensModel.getItemName());
         item.setMarkName(activeItensModel.getMarkName());
         item.setAmount(activeItensModel.getAmount());
+        item.setCreatedDate(LocalDateTime.now());
 
         return activeitensRepository.save(item);
     }
