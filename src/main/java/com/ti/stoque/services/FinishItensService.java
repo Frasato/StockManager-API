@@ -13,8 +13,12 @@ public class FinishItensService {
     @Autowired
     private FinishItensRepository finishItensRepository;
 
-    public List<FinishItensModel> findAl(){
+    public List<FinishItensModel> findAll(){
         return finishItensRepository.findAll();
+    }
+
+    public List<FinishItensModel> findByQuery(String searchItem){
+        return finishItensRepository.findByBarCodeItemNameMarkName(searchItem);
     }
 
 }
