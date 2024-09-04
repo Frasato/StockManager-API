@@ -28,18 +28,17 @@ public class ActiveItensService {
     }
 
     public ActiveItensModel createItensOnDB(ActiveItensModel activeItensModel){
+        var item = new ActiveItensModel();
 
-        String barCode = String.valueOf(activeItensModel.getBarCorde());
+        item.setBarCode(activeItensModel.getBarCode());
+        item.setItemName(activeItensModel.getItemName());
+        item.setMarkName(activeItensModel.getMarkName());
+        item.setAmount(activeItensModel.getAmount());
 
-        if(barCode.length() < 13){
-            barCode = String.format("%013d", Integer.parseInt(barCode));
-            activeItensModel.setBarCorde(Long.parseLong(barCode));
-        }
-
-        return activeitensRepository.save(activeItensModel);
+        return activeitensRepository.save(item);
     }
 
-    public ActiveItensModel updateItensOnDBOutTB(ActiveItensModel activeItensModel, UUID id, int removedAmount, String sector, String city){
+    public ActiveItensModel updateItensOnDBOutTB(UUID id, int removedAmount, String sector, String city){
         var item = activeitensRepository.findById(id).orElseThrow(()-> new RuntimeException("Item not found on ID: " + id));
         FinishItensModel finishItensModel = new FinishItensModel();
 
@@ -48,7 +47,7 @@ public class ActiveItensService {
         }
 
         finishItensModel.setId(UUID.randomUUID());
-        finishItensModel.setBarCorde(item.getBarCorde());
+        finishItensModel.setBarCorde(item.getBarCode());
         finishItensModel.setItemName(item.getItemName());
         finishItensModel.setMarkName(item.getMarkName());
         finishItensModel.setAmount(removedAmount);
@@ -58,11 +57,7 @@ public class ActiveItensService {
 
         finishItensRepository.save(finishItensModel);
 
-        item.setBarCorde(activeItensModel.getBarCorde());
-        item.setItemName(activeItensModel.getItemName());
-        item.setMarkName(activeItensModel.getMarkName());
-        item.setAmount(activeItensModel.getAmount());
-        item.setCreatedDate(LocalDateTime.now());
+        item.setAmount(item.getAmount() - removedAmount);
 
         return activeitensRepository.save(item);
     }
@@ -70,7 +65,7 @@ public class ActiveItensService {
     public ActiveItensModel updateItensOnDB(ActiveItensModel activeItensModel, UUID id){
         var item = activeitensRepository.findById(id).orElseThrow(()-> new RuntimeException("Item not find on ID: " + id));
 
-        item.setBarCorde(activeItensModel.getBarCorde());
+        item.setBarCode(activeItensModel.getBarCode());
         item.setItemName(activeItensModel.getItemName());
         item.setMarkName(activeItensModel.getMarkName());
         item.setAmount(activeItensModel.getAmount());
