@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface ActiveitensRepository extends JpaRepository<ActiveItensModel, UUID> {
 
-    @Query(value = "SELECT * FROM itens_tb WHERE bar_code=:barcode OR item=:item OR mark=:mark", nativeQuery = true)
-    List<ActiveItensModel> findByBarCodeItemNameMarkName(@Param("barcode") long barCode, @Param("item") String item, @Param("mark") String mark);
+    @Query(value = "SELECT * FROM itens_tb WHERE CAST(bar_code AS CHAR) LIKE %:searchItem% OR item LIKE %:searchItem% OR mark LIKE %:searchItem%", nativeQuery = true)
+    List<ActiveItensModel> findByBarCodeItemNameMarkName(@Param("searchItem") String searchItem);
 
 }
