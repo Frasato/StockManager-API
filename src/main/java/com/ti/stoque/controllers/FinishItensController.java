@@ -4,9 +4,9 @@ import com.ti.stoque.models.FinishItensModel;
 import com.ti.stoque.services.FinishItensService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class FinishItensController {
     }
 
     @GetMapping(value = "/search")
-    public List<FinishItensModel> findByQuery(String searchItem){
+    public List<FinishItensModel> findByQuery(@RequestBody String searchItem){
         return finishItensService.findByQuery(searchItem);
     }
 }
