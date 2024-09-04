@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface FinishItensRepository extends JpaRepository<FinishItensModel, UUID> {
 
-    @Query(value = "SELECT * FROM itens_tb WHERE bar_code=:barcode OR item=:item OR mark=:mark OR sector=:sector OR city=:city", nativeQuery = true)
-    List<FinishItensModel> findByBarCodeItemNameMarkName(@Param("barcode") long barCode, @Param("item") String item, @Param("mark") String mark, @Param("sector") String sector, @Param("city") String city);
+    @Query(value = "SELECT * FROM itens_tb WHERE CAST(bar_code AS CHAR) LIKE %:searchItem% OR item LIKE %:searchItem% OR mark LIKE %:searchItem% OR sector LIKE %:searchItem% OR city LIKE %:searchItem%", nativeQuery = true)
+    List<FinishItensModel> findByBarCodeItemNameMarkName(@Param("searchItem") String searchItem);
 
 }
