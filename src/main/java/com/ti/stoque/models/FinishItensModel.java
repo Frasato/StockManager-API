@@ -14,19 +14,19 @@ public class FinishItensModel implements Serializable {
     @Id
     @GeneratedValue
     private UUID id;
-    @JoinColumn(name = "bar_code")
-    private long barCorde;
-    @JoinColumn(name = "item")
+    @Column(name = "bar_code", nullable = false)
+    private String barCorde;
+    @Column(name = "item", nullable = false)
     private String itemName;
-    @JoinColumn(name = "mark")
+    @Column(name = "mark")
     private String markName;
-    @JoinColumn(name = "amount")
+    @Column(name = "amount", nullable = false)
     private int amount;
-    @JoinColumn(name = "sector")
+    @Column(name = "sector", nullable = false)
     private String sectorName;
-    @JoinColumn(name = "city")
+    @Column(name = "city", nullable = false)
     private String cityName;
-    @JoinColumn(name = "out_date")
+    @Column(name = "out_date")
     private LocalDateTime outDate;
 
     public UUID getId() {
@@ -37,11 +37,11 @@ public class FinishItensModel implements Serializable {
         this.id = id;
     }
 
-    public long getBarCorde() {
+    public String getBarCorde() {
         return barCorde;
     }
 
-    public void setBarCorde(long barCorde) {
+    public void setBarCorde(String barCorde) {
         this.barCorde = barCorde;
     }
 
@@ -91,5 +91,10 @@ public class FinishItensModel implements Serializable {
 
     public void setOutDate(LocalDateTime outDate) {
         this.outDate = outDate;
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        this.outDate = LocalDateTime.now();
     }
 }
