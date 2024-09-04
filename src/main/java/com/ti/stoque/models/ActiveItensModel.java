@@ -2,7 +2,6 @@ package com.ti.stoque.models;
 
 import jakarta.persistence.*;
 
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,15 +14,15 @@ public class ActiveItensModel implements Serializable {
     @Id
     @GeneratedValue
     private UUID id;
-    @JoinColumn(name = "bar_code")
-    private long barCorde;
-    @JoinColumn(name = "item")
+    @Column(name = "bar_code", nullable = false)
+    private String barCode;
+    @Column(name = "item", nullable = false)
     private String itemName;
-    @JoinColumn(name = "mark")
+    @Column(name = "mark")
     private String markName;
-    @JoinColumn(name = "amount")
+    @Column(name = "amount", nullable = false)
     private int amount;
-    @JoinColumn(name = "created_date")
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     public UUID getId() {
@@ -34,12 +33,12 @@ public class ActiveItensModel implements Serializable {
         this.id = id;
     }
 
-    public long getBarCorde() {
-        return barCorde;
+    public String getBarCode() {
+        return barCode;
     }
 
-    public void setBarCorde(long barCorde) {
-        this.barCorde = barCorde;
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
     }
 
     public String getItemName() {
@@ -72,5 +71,10 @@ public class ActiveItensModel implements Serializable {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        this.createdDate = LocalDateTime.now();
     }
 }
