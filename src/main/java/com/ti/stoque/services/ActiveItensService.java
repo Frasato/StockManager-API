@@ -28,6 +28,14 @@ public class ActiveItensService {
     }
 
     public ActiveItensModel createItensOnDB(ActiveItensModel activeItensModel){
+
+        String barCode = String.valueOf(activeItensModel.getBarCorde());
+
+        if(barCode.length() < 13){
+            barCode = String.format("%013d", Integer.parseInt(barCode));
+            activeItensModel.setBarCorde(Long.parseLong(barCode));
+        }
+
         return activeitensRepository.save(activeItensModel);
     }
 
