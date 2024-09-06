@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity
@@ -27,7 +28,7 @@ public class FinishItensModel implements Serializable {
     @Column(name = "city", nullable = false)
     private String cityName;
     @Column(name = "out_date")
-    private LocalDateTime outDate;
+    private String outDate;
 
     public UUID getId() {
         return id;
@@ -85,16 +86,19 @@ public class FinishItensModel implements Serializable {
         this.cityName = cityName;
     }
 
-    public LocalDateTime getOutDate() {
+    public String getOutDate() {
         return outDate;
     }
 
-    public void setOutDate(LocalDateTime outDate) {
+    public void setOutDate(String outDate) {
         this.outDate = outDate;
     }
 
     @PrePersist
     protected void onCreate(){
-        this.outDate = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String dateFormatted = now.format(formatter);
+        this.outDate = dateFormatted;
     }
 }
