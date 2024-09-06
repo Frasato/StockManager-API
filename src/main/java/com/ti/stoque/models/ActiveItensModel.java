@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity
@@ -23,7 +24,7 @@ public class ActiveItensModel implements Serializable {
     @Column(name = "amount", nullable = false)
     private int amount;
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private String createdDate;
 
     public UUID getId() {
         return id;
@@ -65,16 +66,19 @@ public class ActiveItensModel implements Serializable {
         this.amount = amount;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
     @PrePersist
     protected void onCreate(){
-        this.createdDate = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String dateFormatted = now.format(formatter);
+        this.createdDate = dateFormatted;
     }
 }
