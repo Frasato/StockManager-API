@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/itens")
+@CrossOrigin(origins = "*")
 public class ActiveItensController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class ActiveItensController {
     }
 
     @GetMapping(value = "/find/{seacrhItens}")
-    public List<ActiveItensModel> searchingItensFromTable(@PathVariable(name = "seacrhItens") String seacrhItens){
+    public List<ActiveItensModel> searchingItensFromTable(@PathVariable String seacrhItens){
         return activeItensService.findBySearchInput(seacrhItens);
     }
 
