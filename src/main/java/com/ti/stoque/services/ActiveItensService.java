@@ -7,7 +7,9 @@ import com.ti.stoque.repositories.FinishItensRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,7 +55,6 @@ public class ActiveItensService {
         finishItensModel.setAmount(removedAmount);
         finishItensModel.setCityName(city);
         finishItensModel.setSectorName(sector);
-        finishItensModel.setOutDate(LocalDateTime.now());
 
         finishItensRepository.save(finishItensModel);
 
@@ -69,7 +70,6 @@ public class ActiveItensService {
         item.setItemName(activeItensModel.getItemName());
         item.setMarkName(activeItensModel.getMarkName());
         item.setAmount(activeItensModel.getAmount());
-        item.setCreatedDate(LocalDateTime.now());
 
         return activeitensRepository.save(item);
     }
