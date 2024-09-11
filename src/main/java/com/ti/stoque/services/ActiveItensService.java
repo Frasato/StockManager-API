@@ -32,7 +32,16 @@ public class ActiveItensService {
     public ActiveItensModel createItensOnDB(ActiveItensModel activeItensModel){
         var item = new ActiveItensModel();
 
-        item.setBarCode(activeItensModel.getBarCode());
+        String barCode = activeItensModel.getBarCode();
+        if(barCode.length() < 13){
+            barCode = String.format("%013d");
+        }
+
+        if(barCode.length() > 13){
+            throw new RuntimeException("Bar code must have exactly 13 digits, but yours has: " + barCode.length());
+        }
+
+        item.setBarCode(barCode);
         item.setItemName(activeItensModel.getItemName());
         item.setMarkName(activeItensModel.getMarkName());
         item.setAmount(activeItensModel.getAmount());
